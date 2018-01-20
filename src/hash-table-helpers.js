@@ -34,6 +34,40 @@ class LimitedArray {
     this.storage[index] = value;
   }
 }
+
+class Bucket {
+  constructor() {
+    this.head = null;
+    this.tail = null;
+  }
+  add(k, v) {
+    const newNode = {
+      key: k,
+      value: v,
+      next: null,
+    };
+    if (this.tail === null) {
+      this.tail = newNode;
+      this.head = newNode;
+      return;
+    }
+    this.tail.next = newNode;
+    this.tail = newNode;
+  }
+  findNode(key, node) {
+    if (this.head === null) return;
+    if (node.key === key) return node;
+    if (node.next === null) return;
+    return this.findNode(key, node.next);
+  }
+  removeHead() {
+    if (this.head === null) return;
+    const head = this.head;
+    this.head = this.head.next;
+    return head;
+  }
+
+}
 /* eslint-disable no-bitwise, operator-assignment */
 // This is hash function you'll be using to hash keys
 // There's some bit-shifting magic going on here, but essentially, all it is doing is performing the modulo operator
@@ -52,4 +86,5 @@ const getIndexBelowMax = (str, max) => {
 module.exports = {
   LimitedArray,
   getIndexBelowMax,
+  Bucket,
 };
